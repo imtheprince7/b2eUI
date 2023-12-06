@@ -6,7 +6,7 @@ class Nav extends Component {
     <>
     <nav className ="navbar navbar-expand-sm navbar-dark bg-primary mb-4">
     <div className="container">
-        <Link className="navbar-brand" to="/"> Expense Manager </Link>
+        <Link className="navbar-brand" to="/"> Balance2Expense</Link>
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobile-nav">
             <span className="navbar-toggler-icon" />
         </button>
@@ -23,7 +23,7 @@ class Nav extends Component {
                     <Link className="nav-link " to="/"> Sign Up </Link>
                 </li>
                 <li className="nav-item">
-                    <Link className="nav-link" to="/notfound"> Login
+                    <Link className="nav-link" to="/"> Login
                     </Link>
                 </li>
             </ul>

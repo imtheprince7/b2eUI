@@ -1,24 +1,27 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import Nav from './Nav'
+import './App.css'
 
 
 class Notfound extends Component {
   render() {
     return (
         <>
-             <div className="container">
-            <div classNameName="row">
-                <div className="col-md-12">
-                    <div className="error-template">
+        <Nav />
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="error-template">
                         <h1>
                             Oops!</h1>
                         <h2>
                             404 Not Found</h2>
-                        <div className="error-details">
+                        <div class="error-details">
                             Sorry, an error has occured, Requested page not found!
                         </div>
-                        <div className="error-actions">
-                            <Link to="/" className="btn btn-primary btn-lg"><span className="glyphicon glyphicon-home"></span>
+                        <div class="error-actions">
+                            <Link to ='/' class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-home"></span>
                                 Take Me Home </Link>
                         </div>
                     </div>

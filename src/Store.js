@@ -1,22 +1,21 @@
-import { createStore, applyMiddleware, compose } from 'redux'
-import thunk , { ThunkMiddleware } from "redux-thunk";
-import rootReducer from './reducers/rootReducer'
+import { createStore, applyMiddleware, compose } from 'redux';
+import { thunk } from 'redux-thunk';
+import rootReducer from '../src/reducer/rootReducer';
 
-const initialState = {}
-const middleWare = [thunk]
-let store;
+const initialState = {};
+const middleware = [thunk];
 
-if (window.navigator.userAgent.includes("Chrome")) {
-    store = createStore(rootReducer,
-        initialState,
-        compose(applyMiddleware(...middleWare),
-            window.__REDUX_DEVTOOLS_EXTENSION__ &&
-            window.__REDUX_DEVTOOLS_EXTENSION__()
-        ))
-} else {
-    store = createStore(rootReducer,
-        initialState,
-        compose(applyMiddleware(...middleWare)))
+let composeEnhancers = compose;
+
+// Check if the Redux DevTools extension is available
+if (process.env.NODE_ENV === 'development' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) {
+  composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
 }
+
+const store = createStore(
+  rootReducer,
+  initialState,
+  composeEnhancers(applyMiddleware(...middleware))
+);
 
 export default store;

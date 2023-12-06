@@ -12,15 +12,15 @@ class Dasdboard extends Component {
         <div className="container">
             <div className="row">
                 <div className="col-md-12">
-                    <h1 className="display-4 text-center">My Wallets</h1>
+                    <h1 className="display-4 text-center">My Wallet</h1>
                     <br />
                     <div className="btn-group">
                         <button type="button" className="btn btn-info btn-lg dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                           Create new
                         </button>
                         <div className="dropdown-menu">
-                          <Link  className="dropdown-item" to ="/createwallet">Wallet</Link>
-                          <button disabled className="dropdown-item">Transaction</button>
+                          <Link  className="dropdown-item" to ="/createwallet">Create Wallet</Link>
+                          <button disabled className="dropdown-item">New Transaction</button>
                         </div>
                       </div>
                     <br />
