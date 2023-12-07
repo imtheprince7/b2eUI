@@ -1,49 +1,64 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { createWallet } from '../../../actions/ProjectActions';
 import Nav from '../../shared/Nav';
-import '../../shared/App.css';
+import { useNavigate } from 'react-router-dom';
+import { getWalletDetails,updateWalletDetails } from '../../../actions/ProjectActions';
 
-const CreateWallet = ({ createWallet, errors }) => {
-  const navigate = useNavigate();
+const UpdateWallet = ({ createWallet, errors, getWalletDetails, wallet }) => {
+    const navigate = useNavigate();
   const [state, setState] = useState({
     accountName: '',
     accountNumber: '',
     description: '',
     priority: '',
-    errors: null 
+    errors: null,
   });
 
   useEffect(() => {
-    // This will be triggered whenever errors prop changes
     if (errors) {
       setState((prevState) => ({
         ...prevState,
-        errors: errors
+        errors: errors,
       }));
     }
   }, [errors]);
 
+  useEffect(() => {
+    getWalletDetails(); // You may need to pass an argument to get the specific wallet details
+  }, [getWalletDetails]);
+
+  useEffect(() => {
+    if (wallet) {
+      const { accountName, accountNumber, description, priority } = wallet;
+      setState((prevState) => ({
+        ...prevState,
+        accountName,
+        accountNumber,
+        description,
+        priority,
+      }));
+    }
+  }, [wallet]);
+
   const changeHandler = (event, fieldName) => {
     setState({
       ...state,
-      [fieldName]: event.target.value
+      [fieldName]: event.target.value,
     });
   };
 
-
   const submitHandler = async (event) => {
-    event.preventDefault();
-
-    const newWallet = {
-      accountName: state.accountName,
-      accountNumber: state.accountNumber,
-      description: state.description,
-      priority: state.priority
+    const updatewallet = {
+      id: this.state.id,
+      accountName: this.state.accountName,
+      accountNumber: this.state.accountNumber,
+      description: this.state.description,
+      priority: this.state.priority,
     };
-
-    await createWallet(newWallet, navigate);
+    // // Call the action creator
+    // await createWallet(newWallet, navigate);
+    this.props.updateWalletDetails(this.state.id,updatewallet,navigate)
+    event.preventDefault();
   };
 
   return (
@@ -54,14 +69,17 @@ const CreateWallet = ({ createWallet, errors }) => {
           <div className="row">
             <div className="col-md-8 m-auto">
               <div className="w-75 p-3" style={{ backgroundColor: "#eee" }}>
-                <h5 className="display-4 text-center">Create New Wallet</h5>
+                <h5 className="display-4 text-center">Update Your Wallet</h5>
                 <hr />
 
                 <form onSubmit={(event) => submitHandler(event)}>
                   <div className="form-group">
                     <label htmlFor="exampleInputEmail1">Account Name</label>
-                    <input type="text" onChange={(event) => changeHandler(event, "accountName")}
-                     className="form-control form-control-lg"
+                    <input
+                      type="text"
+                      onChange={(event) => changeHandler(event, "accountName")}
+                      value={state.accountName}
+                      className="form-control form-control-lg"
                       placeholder="For whom you're creating the account"
                     />
                     {state.errors && state.errors.accountName && (
@@ -73,6 +91,7 @@ const CreateWallet = ({ createWallet, errors }) => {
                     <input
                       type="text"
                       onChange={(event) => changeHandler(event, "accountNumber")}
+                      value={state.accountNumber}
                       className="form-control form-control-lg"
                       placeholder="Account No"
                     />
@@ -84,6 +103,7 @@ const CreateWallet = ({ createWallet, errors }) => {
                     <label htmlFor="exampleInputEmail1">Account Description</label>
                     <textarea
                       onChange={(event) => changeHandler(event, "description")}
+                      value={state.description}
                       className="form-control form-control-lg"
                       placeholder="Description"
                     ></textarea>
@@ -96,6 +116,7 @@ const CreateWallet = ({ createWallet, errors }) => {
                     <select
                       className="form-control form-control-lg"
                       onChange={(event) => changeHandler(event, "priority")}
+                      value={state.priority}
                     >
                       <option value={0}>Display Priority</option>
                       <option value={1}>High</option>
@@ -109,16 +130,10 @@ const CreateWallet = ({ createWallet, errors }) => {
                   <input
                     type="submit"
                     className="btn btn-primary btn-block mt-4 customSpace"
-                    value="Create"
+                    value="Update"
                   />
-                  <input
-                  type="button"
-                  className="btn btn-primary btn-block mt-4 "
-                  value="Back to Dashboard"
-                  // onClick={}
-                />  
                 </form>
-              {state.errors && (
+                {state.errors && (
                   <div className="alert alert-danger mt-3">
                     {state.errors}
                   </div>
@@ -133,7 +148,8 @@ const CreateWallet = ({ createWallet, errors }) => {
 };
 
 const mapStateToProps = (state) => ({
-  errors: state.errors
+  errors: state.errors,
+  wallet: state.wallet.wallet,
 });
 
-export default connect(mapStateToProps, { createWallet })(CreateWallet);
+export default connect(mapStateToProps, { getWalletDetails,updateWalletDetails })(UpdateWallet);
